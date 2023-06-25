@@ -38,7 +38,7 @@ func (r *PGRepository) GetFlightById(id string) (entities.Flight, error) {
 
 func (r *PGRepository) UpdateFlightById(id, action string, count int) (bool, error) {
 	var flight entities.Flight
-	
+
 	tx := r.DB.Begin()
 	defer func() {
 		if r := recover(); r != nil {
@@ -61,7 +61,7 @@ func (r *PGRepository) UpdateFlightById(id, action string, count int) (bool, err
 			tx.Rollback()
 			return false, errors.New("not enough remaining seats")
 		}
-		
+
 		flight.RemainingSeat -= count
 
 	default:
@@ -81,3 +81,13 @@ func (r *PGRepository) UpdateFlightById(id, action string, count int) (bool, err
 	return true, nil
 }
 
+func (r *PGRepository) GetAircraftList() ([]string, error) {
+	var aircrafts []string
+	var flight entities.Flight
+
+	if err := r.DB.Model(&flight).Distinct().Pluck("aircraft_name", &aircrafts).Error; err != nil {
+		return nil, err
+	}
+
+	return aircrafts, nil
+}

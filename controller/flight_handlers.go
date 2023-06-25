@@ -28,6 +28,8 @@ func AddFlightRoutes(e *echo.Echo) {
 	e.GET("/flights", handler.ListFlightsHandler)
 	e.GET("/flights/:id", handler.FindFlightHandler)
 	e.PATCH("/flights/:id", handler.UpdateFlightHandler)
+	e.GET("/aircrafts", handler.ListAircraftsHandler)
+
 }
 func (h *FlightHandler) ListFlightsHandler(c echo.Context) error {
 	var flightList []entities.Flight
@@ -79,4 +81,14 @@ func (h *FlightHandler) UpdateFlightHandler(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 	return c.JSON(http.StatusOK, flight)
+}
+
+func (h *FlightHandler) ListAircraftsHandler(c echo.Context) error {
+	aircrafts, err := h.svc.GetAircraftList()
+	
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, aircrafts)
 }
