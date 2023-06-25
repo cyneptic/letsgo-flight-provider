@@ -5,7 +5,7 @@ import (
 	repositories "letsgo-flight-provider/infrastructure/repository"
 	"log"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func main() {
