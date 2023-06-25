@@ -30,3 +30,20 @@ func (svc *FlightService) UpdateFlightById(id, action string, count int) (bool, 
 func (svc *FlightService) GetAircraftList() ([]string, error) {
 	return svc.db.GetAircraftList()
 }
+
+func (svc *FlightService) GetcitytList() ([]string, error) {
+	cities, err := svc.db.GetcitytList()
+	if err != nil {
+		return nil, err
+	}
+	uniqueCities := make([]string, 0, len(cities))
+	encountered := map[string]bool{}
+
+	for _, city := range cities {
+		if !encountered[city] {
+			encountered[city] = true
+			uniqueCities = append(uniqueCities, city)
+		}
+	}
+	return uniqueCities, nil
+}

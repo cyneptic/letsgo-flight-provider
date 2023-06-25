@@ -29,8 +29,9 @@ func AddFlightRoutes(e *echo.Echo) {
 	e.GET("/flights/:id", handler.FindFlightHandler)
 	e.PATCH("/flights/:id", handler.UpdateFlightHandler)
 	e.GET("/aircrafts", handler.ListAircraftsHandler)
-
+	e.GET("/cities", handler.ListCitiesHandler)
 }
+
 func (h *FlightHandler) ListFlightsHandler(c echo.Context) error {
 	var flightList []entities.Flight
 	err := validators.ValidateListFlightParam(c.QueryParams())
@@ -85,10 +86,20 @@ func (h *FlightHandler) UpdateFlightHandler(c echo.Context) error {
 
 func (h *FlightHandler) ListAircraftsHandler(c echo.Context) error {
 	aircrafts, err := h.svc.GetAircraftList()
-	
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	return c.JSON(http.StatusOK, aircrafts)
+}
+
+func (h *FlightHandler) ListCitiesHandler(c echo.Context) error {
+	cities, err := h.svc.GetcitytList()
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, cities)
 }

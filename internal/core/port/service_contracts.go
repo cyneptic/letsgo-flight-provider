@@ -7,4 +7,5 @@ type FlightServiceContract interface {
 	GetFlightById(id string) (entities.Flight, error)
 	UpdateFlightById(id ,action string, count int) (bool, error)
 	GetAircraftList() ([]string, error)
+	GetcitytList() ([]string, error)
 }

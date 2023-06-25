@@ -91,3 +91,18 @@ func (r *PGRepository) GetAircraftList() ([]string, error) {
 
 	return aircrafts, nil
 }
+
+func (r *PGRepository) GetcitytList() ([]string, error) {
+	var cities []string
+	var destinationCities []string
+	var flight entities.Flight
+
+	if err := r.DB.Model(&flight).Distinct().Pluck("source", &cities).Error; err != nil {
+		return nil, err
+	}
+	if err := r.DB.Model(&flight).Distinct().Pluck("destination", &destinationCities).Error; err != nil {
+		return nil, err
+	}
+	cities = append(cities, destinationCities...)
+	return cities, nil
+}
