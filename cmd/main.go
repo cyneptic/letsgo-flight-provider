@@ -1,12 +1,15 @@
 package main
 
 import (
+	repositories "letsgo-flight-provider/infrastructure/repository"
 	"log"
 
 	"github.com/labstack/echo"
 )
 
 func main() {
+	_ = repositories.NewGormDatabase()
+
 	e := echo.New()
 
 	if err := e.Start(":8080"); err != nil {
