@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"letsgo-flight-provider/controller/middleware"
 	"letsgo-flight-provider/controller/validators"
 	repositories "letsgo-flight-provider/infrastructure/repository"
 	"letsgo-flight-provider/internal/core/entities"
@@ -26,6 +27,7 @@ func NewFlightHandler() *FlightHandler {
 
 func AddFlightRoutes(e *echo.Echo) {
 	handler := NewFlightHandler()
+	e.Use(middleware.CustomLogger)
 	e.GET("/flights", handler.ListFlightsHandler)
 	e.GET("/flights/:id", handler.FindFlightHandler)
 	e.PATCH("/flights/:id", handler.UpdateFlightHandler)
