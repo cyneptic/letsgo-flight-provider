@@ -18,3 +18,7 @@ func NewFlightService(db ports.FlightRepositoryContract) *FlightService {
 func (svc *FlightService) GetFlightList(source, destination, departure string) ([]entities.Flight, error) {
 	return svc.db.GetFlightList(source, destination, departure)
 }
+
+func (svc *FlightService) GetFlightById(id string) (entities.Flight, error) {
+	return svc.db.GetFlightById(id)
+}
