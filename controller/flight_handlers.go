@@ -15,16 +15,17 @@ type FlightHandler struct {
 	svc ports.FlightServiceContract
 }
 
-func NewFlightHandler(svc ports.FlightServiceContract) *FlightHandler {
+func NewFlightHandler() *FlightHandler {
+	db := repositories.NewGormDatabase()
+	svc := service.NewFlightService(db)
+
 	return &FlightHandler{
 		svc: svc,
 	}
 }
 
 func AddFlightRoutes(e *echo.Echo) {
-	db := repositories.NewGormDatabase()
-	svc := service.NewFlightService(db)
-	handler := NewFlightHandler(svc)
+	handler := NewFlightHandler()
 	e.GET("/flights", handler.ListFlightsHandler)
 	e.GET("/flights/:id", handler.FindFlightHandler)
 	e.PATCH("/flights/:id", handler.UpdateFlightHandler)

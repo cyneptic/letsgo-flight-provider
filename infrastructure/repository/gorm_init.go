@@ -22,7 +22,7 @@ func NewGormDatabase() *PGRepository {
 }
 
 func GormInit() (*gorm.DB, error) {
-	err := godotenv.Load()
+	err := godotenv.Load(".env")
 	if err != nil {
 		return nil, err
 	}
