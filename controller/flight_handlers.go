@@ -27,7 +27,7 @@ func AddFlightRoutes(e *echo.Echo) {
 	handler := NewFlightHandler(svc)
 	e.GET("/flights", handler.ListFlightsHandler)
 	e.GET("/flights/:id", handler.FindFlightHandler)
-
+	e.PATCH("/flights/:id", handler.UpdateFlightHandler)
 }
 func (h *FlightHandler) ListFlightsHandler(c echo.Context) error {
 	var flightList []entities.Flight
@@ -35,19 +35,46 @@ func (h *FlightHandler) ListFlightsHandler(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-	
+
 	flightList, err = h.svc.GetFlightList(c.QueryParam("source"), c.QueryParam("destination"), c.QueryParam("departing"))
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-	
+
 	return c.JSON(http.StatusOK, flightList)
-	
+
 }
 
 func (h *FlightHandler) FindFlightHandler(c echo.Context) error {
 	var flight entities.Flight
 	flight, err := h.svc.GetFlightById(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+	return c.JSON(http.StatusOK, flight)
+}
+
+func (h *FlightHandler) UpdateFlightHandler(c echo.Context) error {
+	type RequestBody struct {
+		Action string `json:"action"`
+		Count  int    `json:"count"`
+	}
+	var requestBody RequestBody
+	if err := c.Bind(&requestBody); err != nil {
+		return c.JSON(http.StatusBadRequest,
+			"Invalid request body",
+		)
+	}
+
+	action := requestBody.Action
+	count := requestBody.Count
+
+	err := validators.ValidateUpdateFlightParam(action)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	flight, err := h.svc.UpdateFlightById(c.Param("id"), action, count)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}

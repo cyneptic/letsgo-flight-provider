@@ -22,3 +22,7 @@ func (svc *FlightService) GetFlightList(source, destination, departure string) (
 func (svc *FlightService) GetFlightById(id string) (entities.Flight, error) {
 	return svc.db.GetFlightById(id)
 }
+
+func (svc *FlightService) UpdateFlightById(id ,action string, count int) (bool, error) {
+	return svc.db.UpdateFlightById(id ,action, count)
+}

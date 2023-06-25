@@ -40,3 +40,10 @@ func ValidateListFlightParam(p url.Values) error {
 
 	return nil
 }
+
+func ValidateUpdateFlightParam(a string) error {
+	if a != "cancel" && a != "reserv" {
+		return errors.New("invalid input action")
+	}
+	return nil
+}

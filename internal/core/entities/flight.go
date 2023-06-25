@@ -13,21 +13,21 @@ type Flight struct {
 	Source         string         `gorm:"size:255" json:"source"`
 	Destination    string         `gorm:"size:255" json:"destination"`
 	DepartureDate  time.Time      `json:"departure_date"`
-	FlightDuration uint           `json:"flight_duration"`
+	FlightDuration int            `json:"flight_duration"`
 	ArrivalDate    time.Time      `json:"arrival_date"`
 	AirlineName    string         `gorm:"size:255" json:"airline_name"`
 	AircraftName   string         `gorm:"size:255" json:"aircraft_name"`
 	FareClass      FareClass      `gorm:"embedded"`
-	Tax            uint64         `json:"tax"`
+	Tax            int64          `json:"tax"`
 	FlightClass    string         `gorm:"size:255" json:"flight_class"`
-	RemainingSeat  uint           `json:"remaining_seat"`
+	RemainingSeat  int            `json:"remaining_seat"`
 	CreatedAt      time.Time      `json:"created_at"`
 	ModifiedAt     time.Time      `json:"modified_at"`
 	DeletedAt      gorm.DeletedAt `json:"deleted_at"`
 }
 
 type FareClass struct {
-	AdultFare  uint64 `json:"adult_fare"`
-	ChildFare  uint64 `json:"child_fare"`
-	InfantFare uint64 `json:"infant_fare"`
+	AdultFare  int64 `json:"adult_fare"`
+	ChildFare  int64 `json:"child_fare"`
+	InfantFare int64 `json:"infant_fare"`
 }

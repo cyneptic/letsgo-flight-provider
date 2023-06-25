@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"errors"
 	"fmt"
 	"letsgo-flight-provider/internal/core/entities"
 	"time"
@@ -34,3 +35,49 @@ func (r *PGRepository) GetFlightById(id string) (entities.Flight, error) {
 	return flight, nil
 
 }
+
+func (r *PGRepository) UpdateFlightById(id, action string, count int) (bool, error) {
+	var flight entities.Flight
+	
+	tx := r.DB.Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
+	err := tx.Model(entities.Flight{}).Where("id = ?", id).First(&flight).Error
+	if err != nil {
+		tx.Rollback()
+		return false, err
+	}
+
+	switch action {
+	case "cancel":
+		flight.RemainingSeat += count
+
+	case "reserv":
+		if flight.RemainingSeat-count < 0 {
+			tx.Rollback()
+			return false, errors.New("not enough remaining seats")
+		}
+		
+		flight.RemainingSeat -= count
+
+	default:
+		tx.Rollback()
+		return false, errors.New("invalid action")
+	}
+
+	flight.ModifiedAt = time.Now()
+
+	if err := tx.Save(&flight).Error; err != nil {
+		tx.Rollback()
+		return false, err
+	}
+
+	tx.Commit()
+
+	return true, nil
+}
+
