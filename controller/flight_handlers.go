@@ -30,6 +30,7 @@ func AddFlightRoutes(e *echo.Echo) {
 	e.PATCH("/flights/:id", handler.UpdateFlightHandler)
 	e.GET("/aircrafts", handler.ListAircraftsHandler)
 	e.GET("/cities", handler.ListCitiesHandler)
+	e.GET("/days-with-flight", handler.ListDaysWithFlightHandler)
 }
 
 func (h *FlightHandler) ListFlightsHandler(c echo.Context) error {
@@ -102,4 +103,16 @@ func (h *FlightHandler) ListCitiesHandler(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, cities)
+}
+
+func (h *FlightHandler) ListDaysWithFlightHandler(c echo.Context) error {
+	days, err := h.svc.GetListDaysWithFlight()
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, days)
 }

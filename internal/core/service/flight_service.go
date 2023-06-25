@@ -3,6 +3,7 @@ package service
 import (
 	"letsgo-flight-provider/internal/core/entities"
 	ports "letsgo-flight-provider/internal/core/port"
+	"time"
 )
 
 type FlightService struct {
@@ -46,4 +47,22 @@ func (svc *FlightService) GetcitytList() ([]string, error) {
 		}
 	}
 	return uniqueCities, nil
+}
+
+func (svc *FlightService) GetListDaysWithFlight() ([]string, error) {
+	timeDates, err := svc.db.GetListDaysWithFlight()
+	if err != nil {
+		return nil, err
+	}
+	var dates []string
+    for _, d := range timeDates {
+		tm, err := time.Parse(time.RFC3339, d)
+        if err != nil {
+			return nil, err
+        }
+        date := tm.Format("2006-01-02")
+        dates = append(dates, date)
+    }
+
+    return dates, nil
 }

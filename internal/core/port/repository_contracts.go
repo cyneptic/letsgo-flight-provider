@@ -8,4 +8,5 @@ type FlightRepositoryContract interface {
 	UpdateFlightById(id ,action string, count int) (bool, error)
 	GetAircraftList() ([]string, error)
 	GetcitytList() ([]string, error)
+	GetListDaysWithFlight() ([]string, error)
 }

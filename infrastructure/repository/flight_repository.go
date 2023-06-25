@@ -106,3 +106,15 @@ func (r *PGRepository) GetcitytList() ([]string, error) {
 	cities = append(cities, destinationCities...)
 	return cities, nil
 }
+
+func (r *PGRepository) GetListDaysWithFlight() ([]string, error) {
+	var timeDates []string
+
+	today := time.Now().Format("2006-01-02")
+	g := r.DB.Model(&entities.Flight{}).Select("DISTINCT DATE(departure_date)").Where("departure_date >= ?", today).Pluck("DISTINCT DATE(departure_date)", &timeDates)
+	if g.Error != nil {
+		return nil, g.Error
+	}
+	return timeDates, nil
+}
+
