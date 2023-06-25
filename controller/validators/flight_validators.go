@@ -33,6 +33,10 @@ func ValidateListFlightParam(p url.Values) error {
 		return errors.New("destination is required")
 	}
 
+	if p.Get("source") == p.Get("destination") {
+		return errors.New("source and destination cannot be the same")
+	}
+
 	err := validateDepartingDate(p.Get("departing"))
 	if err != nil {
 		return err
