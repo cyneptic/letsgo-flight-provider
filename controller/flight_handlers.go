@@ -8,6 +8,7 @@ import (
 	"letsgo-flight-provider/internal/core/service"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
 
@@ -51,8 +52,15 @@ func (h *FlightHandler) ListFlightsHandler(c echo.Context) error {
 }
 
 func (h *FlightHandler) FindFlightHandler(c echo.Context) error {
+	id, err := uuid.Parse(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest,
+			"invalid id",
+		)
+	}
+
 	var flight entities.Flight
-	flight, err := h.svc.GetFlightById(c.Param("id"))
+	flight, err = h.svc.GetFlightById(id)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -60,6 +68,13 @@ func (h *FlightHandler) FindFlightHandler(c echo.Context) error {
 }
 
 func (h *FlightHandler) UpdateFlightHandler(c echo.Context) error {
+	id, err := uuid.Parse(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest,
+			"invalid id",
+		)
+	}
+
 	type RequestBody struct {
 		Action string `json:"action"`
 		Count  int    `json:"count"`
@@ -74,12 +89,12 @@ func (h *FlightHandler) UpdateFlightHandler(c echo.Context) error {
 	action := requestBody.Action
 	count := requestBody.Count
 
-	err := validators.ValidateUpdateFlightParam(action)
+	err = validators.ValidateUpdateFlightParam(action)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	flight, err := h.svc.UpdateFlightById(c.Param("id"), action, count)
+	flight, err := h.svc.UpdateFlightById(id, action, count)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}

@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"letsgo-flight-provider/internal/core/entities"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 func (r *PGRepository) GetFlightList(source, destination, departureDateStr string) ([]entities.Flight, error) {
@@ -24,7 +26,7 @@ func (r *PGRepository) GetFlightList(source, destination, departureDateStr strin
 	return flights, nil
 }
 
-func (r *PGRepository) GetFlightById(id string) (entities.Flight, error) {
+func (r *PGRepository) GetFlightById(id uuid.UUID) (entities.Flight, error) {
 	var flight entities.Flight
 
 	g := r.DB.Where("id = ?", id).First(&flight)
@@ -36,7 +38,7 @@ func (r *PGRepository) GetFlightById(id string) (entities.Flight, error) {
 
 }
 
-func (r *PGRepository) UpdateFlightById(id, action string, count int) (bool, error) {
+func (r *PGRepository) UpdateFlightById(id uuid.UUID, action string, count int) (bool, error) {
 	var flight entities.Flight
 
 	tx := r.DB.Begin()

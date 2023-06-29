@@ -5,6 +5,8 @@ import (
 	"letsgo-flight-provider/internal/core/entities"
 	ports "letsgo-flight-provider/internal/core/port"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type FlightService struct {
@@ -23,11 +25,11 @@ func (svc *FlightService) GetFlightList(source, destination, departure string) (
 	return svc.db.GetFlightList(source, destination, departure)
 }
 
-func (svc *FlightService) GetFlightById(id string) (entities.Flight, error) {
+func (svc *FlightService) GetFlightById(id uuid.UUID) (entities.Flight, error) {
 	return svc.db.GetFlightById(id)
 }
 
-func (svc *FlightService) UpdateFlightById(id, action string, count int) (bool, error) {
+func (svc *FlightService) UpdateFlightById(id uuid.UUID, action string, count int) (bool, error) {
 	return svc.db.UpdateFlightById(id, action, count)
 }
 
