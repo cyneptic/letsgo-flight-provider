@@ -3,7 +3,6 @@ package controllers
 import (
 	"letsgo-flight-provider/controller/middleware"
 	"letsgo-flight-provider/controller/validators"
-	repositories "letsgo-flight-provider/infrastructure/repository"
 	"letsgo-flight-provider/internal/core/entities"
 	ports "letsgo-flight-provider/internal/core/port"
 	"letsgo-flight-provider/internal/core/service"
@@ -17,8 +16,7 @@ type FlightHandler struct {
 }
 
 func NewFlightHandler() *FlightHandler {
-	db := repositories.NewGormDatabase()
-	svc := service.NewFlightService(db)
+	svc := service.NewFlightService()
 
 	return &FlightHandler{
 		svc: svc,
