@@ -1,6 +1,6 @@
 # Flight Provider API
 
-This is the Flight Provider API that allows you to manage flights, aircrafts, cities, and days with a flight.
+The Flight Provider API allows you to manage flights, aircrafts, cities, and days with a flight.
 
 ## Table of Contents
 
@@ -26,7 +26,7 @@ This is the Flight Provider API that allows you to manage flights, aircrafts, ci
 
 Get a list of flights based on parameters
 
-**Request:**
+**Request Parameters:**
 
 | Parameter     | Type   | Required | Description                  |
 | ------------- | ------ | -------- | ---------------------------- |
@@ -53,7 +53,7 @@ Get a list of flights based on parameters
 
 Find a flight by id
 
-**Request:**
+**Request Parameters:**
 
 | Parameter | Type  | Required | Description           |
 | --------- | ----- | -------- | --------------------- |
@@ -75,7 +75,7 @@ Find a flight by id
 
 Update a flight by id
 
-**Request:**
+**Request Parameters:**
 
 | Parameter | Type   | Required | Description                                               |
 | --------- | ------ | -------- | --------------------------------------------------------- |
@@ -95,7 +95,7 @@ true
 
 Get a list of aircrafts
 
-**Request:**
+**Request Parameters:**
 
 *No request parameters*
 
@@ -116,7 +116,7 @@ Get a list of aircrafts
 
 Get a list of cities
 
-**Request:**
+**Request Parameters:**
 
 *No request parameters*
 
@@ -137,7 +137,7 @@ Get a list of cities
 
 Get a list of days with a flight
 
-**Request:**
+**Request Parameters:**
 
 *No request parameters*
 
@@ -149,6 +149,7 @@ Get a list of days with a flight
   "2021-10-02"
   // more dates
 ]
+```
 
 ## Libraries and Dependencies Used
 
@@ -167,7 +168,7 @@ To install and run the Flight Provider API, please follow these steps:
 
 1. Make sure you have Go installed on your system.
 
-2. Clone the repository:
+2. Clone the repository.
 
 3. Change into the project directory:
    ```
@@ -187,7 +188,6 @@ To install and run the Flight Provider API, please follow these steps:
    ```
 
 7. The service will start on port 8080, and you can access it through `http://localhost:8080`.
-
 
 ## Database Initialization
 
