@@ -17,6 +17,7 @@ The Flight Provider API allows you to manage flights, aircrafts, cities, and day
     - [`GET /days-with-flight`](#get-days-with-flight)
 - [Libraries and Dependencies Used](#libraries-and-dependencies-used)
 - [Installation](#installation)
+- [Database Initialization](#database-initialization)
 
 ## Routes
 
@@ -42,11 +43,11 @@ Get a list of flights based on parameters
     "id": "ead35522-0f32-4ad4-8e7a-8506440ed9d2",
     "flight_number": "TD339",
     "source": "tehran",
-    "destination": "sari"
-    // more details
+    "destination": "sari",
+    
   },
-  // more flights
 ]
+  
 ```
 
 #### `GET /flights/:id`
@@ -67,21 +68,26 @@ Find a flight by id
   "flight_number": "TD339",
   "source": "tehran",
   "destination": "sari"
-  // more details
+
 }
 ```
 
 #### `PATCH /flights/:id`
 
-Update a flight by id
+reserve or cancel a flight flight by id
 
-**Request Parameters:**
+**Request Body:**
 
 | Parameter | Type   | Required | Description                                               |
 | --------- | ------ | -------- | --------------------------------------------------------- |
-| `id`      | uuid   | yes      | The ID of the flight to update                            |
 | `action`  | string | yes      | The type of action. Possible values: `["reserv", "cancel"]` |
 | `count`   | int    | yes      | The number of flights to reserve or cancel                 |
+
+**URL Parameters:**
+
+| Parameter | Type   | Required | Description                   |
+| --------- | ------ | -------- | ----------------------------- |
+| `id`      | uuid   | yes      | The ID of the flight to update |
 
 **Response (200 OK):**
 
@@ -106,7 +112,7 @@ Get a list of aircrafts
   "airbus a319",
   "airbus a321",
   "airbus a310"
-  // more aircrafts
+
 ]
 ```
 
@@ -127,7 +133,7 @@ Get a list of cities
   "tehran",
   "karaj",
   "ahvaz"
-  // more cities
+
 ]
 ```
 
@@ -147,7 +153,7 @@ Get a list of days with a flight
 [
   "2021-10-01",
   "2021-10-02"
-  // more dates
+
 ]
 ```
 
@@ -184,7 +190,7 @@ To install and run the Flight Provider API, please follow these steps:
 
 6. Run the project using `go run`:
    ```
-   go run .
+   go run cmd/main.go
    ```
 
 7. The service will start on port 8080, and you can access it through `http://localhost:8080`.
