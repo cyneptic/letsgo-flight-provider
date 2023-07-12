@@ -27,11 +27,11 @@ func GormInit() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	host := os.Getenv("DATABASE_HOST")
-	user := os.Getenv("DATABASE_USER")
-	password := os.Getenv("DATABASE_PASSWORD")
-	dbName := os.Getenv("DATABASE_NAME")
-	port, _ := strconv.Atoi(os.Getenv("DATABASE_PORT"))
+	host := os.Getenv("POSTGRES_HOST")
+	user := os.Getenv("POSTGRES_USERNAME")
+	password := os.Getenv("POSTGRES_PASSWORD")
+	dbName := os.Getenv("POSTGRES_DATABASE")
+	port, _ := strconv.Atoi(os.Getenv("POSTGRES_PORT"))
 
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=Asia/Jakarta", host, user, password, dbName, port)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})

@@ -58,7 +58,7 @@ func (r *PGRepository) UpdateFlightById(id uuid.UUID, action string, count int) 
 	case "cancel":
 		flight.RemainingSeat += count
 
-	case "reserv":
+	case "reserve":
 		if flight.RemainingSeat-count < 0 {
 			tx.Rollback()
 			return false, errors.New("not enough remaining seats")
@@ -119,4 +119,3 @@ func (r *PGRepository) GetListDaysWithFlight() ([]string, error) {
 	}
 	return timeDates, nil
 }
-
